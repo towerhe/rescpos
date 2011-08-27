@@ -1,0 +1,7 @@
+h1. Intro
+
+A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications.
+
+h1. Install
+
+gem install rescpos
