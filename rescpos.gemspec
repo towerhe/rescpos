@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Tower He"]
   s.email       = ["towerhe@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications.}
+  s.description = %q{Print formatted docs with Winpos WP-800}
 
   s.rubyforge_project = "rescpos"
 
