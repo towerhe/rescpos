@@ -1,0 +1,10 @@
+<%= text(@dish[:dish_category], :font_size => FONT_BIG) %>
+<%= text(key_value("餐桌", @bill[:table]), :font_size => FONT_BIG) %> 
+<%= text(key_value("人数", @bill[:num_of_people]), :font_size => FONT_BIG) %>
+<%= single_splitline %>
+<%= text(key_value("菜品", @dish[:name]), :font_size => FONT_BIG) %>
+<%= text(key_value("数量", "#{@dish[:quantity]} [根]"), :font_size => FONT_BIG) %>
+<%= single_splitline %>
+<%= text(key_value("单号", @bill[:id])) %>
+<%= text(key_value("操作员", @bill[:waiter])) %>
+<%= text(key_value("下单时间", @bill[:created_at])) %>

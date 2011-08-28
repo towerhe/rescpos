@@ -1,4 +1,5 @@
 require "erb"
+require "socket"
 
 require "core_ext/string"
 

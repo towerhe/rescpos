@@ -26,6 +26,6 @@ describe Rescpos::Report do
   end
 
   it 'renders the report using default template file' do
-    report.render.should == 'A title'
+    report.render.should == "A title\n"
   end
 end
