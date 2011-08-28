@@ -1,4 +1,7 @@
 require "erb"
+
+require "core_ext/string"
+
 require "rescpos/version"
 require "rescpos/configuration"
 require "rescpos/report"
