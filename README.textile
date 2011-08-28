@@ -5,3 +5,19 @@ A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications
 h1. Install
 
 gem install rescpos
+
+h1. Usage
+
+Specify the template path:
+
+bc. Rescpos.configure do |config|
+  config.template_path = "path/to/your/escpos/templates"
+end
+
+For rails application, the default template path is set to app/escposes. So you should create the templates under app/escposes directory. But if you want to save the templates into another place, you should config the template path in a rails initializer.
+
+h1. Templates
+
+Rescpos use erb to define the templates. So any valid erb templates are valid rescpos templates. 
+
+For rails application, the template's extension name is set to 'escpos.erb'.

@@ -15,6 +15,10 @@ describe Rescpos::Report do
     end
   end
 
+  after(:all) do
+    Rescpos.instance_variable_set(:@configuration, nil)
+  end
+
   let(:report) { report = TitledReport.new('A title') }
 
   it 'renders the report with a string template' do
