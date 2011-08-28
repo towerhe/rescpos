@@ -10,15 +10,15 @@ describe ReportUtilTest do
     @report_util = ReportUtilTest.new
   end
   it "should return a single split line" do
-    @report_util.single_splitline.should ==  "-" * 42
+    @report_util.single_splitline.should == "\x1d\x21\x00" +  "-" * 42
   end
 
   it "should return a doubleline" do
-    @report_util.double_splitline.should == "=" * 42
+    @report_util.double_splitline.should == "\x1d\x21\x00" + "=" * 42
   end
 
   it "should print underline" do
-    @report_util.underline(13).should == "_" * 13
+    @report_util.underline(13).should == "\x1d\x21\x00" + "_" * 13
   end
 
   it "should return chinese" do
@@ -31,7 +31,7 @@ describe ReportUtilTest do
   end
 
   it "should return a font size" do
-    @report_util.fontsize(4).should == "\x1d\x2134"
+    @report_util.fontsize(ReportUtilTest::FONT_NORMAL).should == "\x1d\x21\x00"
   end
 
   it "should return a gray scale" do
@@ -39,11 +39,11 @@ describe ReportUtilTest do
   end
 
   it "should return a formmat text" do
-    @report_util.text('abc', {:font_size => 4, :gray => 4}).should == "\x1d\x2134\x1b\x6d34abc"
+    @report_util.text('abc', {:font_size => ReportUtilTest::FONT_BIG, :gray => 4}).should == "\x1d\x21\x11\x1b\x6d34abc"
   end
 
-  it "should return a formmat label:value" do
-    @report_util.labelandvalue('ab', 4).should == "ab:4"
+  it "should return a formatted key and value pair" do
+    @report_util.key_value('ab', 4).should == "ab: 4"
   end
 
   it "should return a align" do
