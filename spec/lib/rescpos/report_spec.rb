@@ -9,8 +9,19 @@ class TitledReport < Rescpos::Report
 end
 
 describe Rescpos::Report do
-  it 'renders the report' do
-    report = TitledReport.new('A title')
+  before(:all) do
+    Rescpos.configure do |config|
+      config.template_path = File.join(File.dirname(__FILE__), "../../reports")
+    end
+  end
+
+  let(:report) { report = TitledReport.new('A title') }
+
+  it 'renders the report with a string template' do
     report.render(:template => '<%= @title %>').should == 'A title'
+  end
+
+  it 'renders the report using default template file' do
+    report.render.should == 'A title'
   end
 end

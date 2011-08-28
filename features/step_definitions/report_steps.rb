@@ -13,3 +13,13 @@ end
 Then /^I will see "([^"]*)"$/ do |title|
   @output.should == title
 end
+
+Given /^"([^"]*)" is a template directory$/ do |path|
+  Rescpos.configure do |config|
+    config.template_path = path
+  end
+end
+
+When /^I render the report$/ do
+  @output = @report.render
+end
