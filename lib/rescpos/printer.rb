@@ -1,11 +1,10 @@
 module Rescpos
   class Printer
-    MSG = 0
     attr_reader :socket
 
     def initialize(ip, port)
       @socket = TCPSocket.open(ip, port)
-      @socket.send("\x1b\x40", MSG)
+      @socket.send("\x1b\x40", Socket::MSG_OOB)
     end
 
     def self.open(ip, port)
@@ -16,18 +15,21 @@ module Rescpos
       @socket.close
     end
 
-    def print(content)
-      @socket.send(content, MSG)
+    def print(content, opts={})
+      if opts[:encoding]
+        content = Iconv.iconv("#{opts[:encoding]}//IGNORE","UTF-8//IGNORE", content)[0]
+      end
+      @socket.send(content, Socket::MSG_OOB)
       cut
     end
 
-    def print_report(report)
-      print(report.render)
+    def print_report(report, opts={})
+      print(report.render, opts)
     end
 
     private
     def send_command(command)
-      @socket.send(command, MSG)
+      @socket.send(command, Socket::MSG_OOB)
     end
     
     def cut
