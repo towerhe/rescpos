@@ -20,13 +20,15 @@ h2. Reports
 
 Reports manage the objects that will be used in the templates. You should subclass the Rescpos::Report class to define your own reports. For example:
 
-bc. class SimpleTitledReport < Rescpos::Report
+<pre>
+class SimpleTitledReport < Rescpos::Report
   attr_reader :title
 
   def initialize(title = '')
     @title = title
   end
 end
+</pre>
 
 To render the report, you just need to call the render method of the report.
 
