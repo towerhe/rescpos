@@ -5,3 +5,57 @@ A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications
 h1. Install
 
 gem install rescpos
+
+h1. Usage
+
+Specify the template path:
+
+bc. Rescpos.configure do |config|
+  config.template_path = "path/to/your/escpos/templates"
+end
+
+For rails application, the default template path is set to app/escposes. So you should create the templates under app/escposes directory. But if you want to save the templates into another place, you should config the template path in a rails initializer.
+
+h2. Reports
+
+Reports manage the objects that will be used in the templates. You should subclass the Rescpos::Report class to define your own reports. For example:
+
+<pre>
+class SimpleTitledReport < Rescpos::Report
+  attr_reader :title
+
+  def initialize(title = '')
+    @title = title
+  end
+end
+</pre>
+
+To render the report, you just need to call the render method of the report.
+
+bc. report = SimpleTitledReport.new('A report with a title')
+report.render(:template => "<%= @title %>")
+# A report with a title
+
+You can also create a pre-defined template for the report. 
+
+bc. report.render(:file => 'path/to/the/template')
+
+Rescpos will search for the template with the underscore name of the report under the template path if you do not provide any params when rendering the report.
+
+bc. report.render
+
+This will cause rescpos to search for a template named simple_titled.escpos.erb under app/escposes.
+
+h2. Templates
+
+Rescpos use erb to define the templates. So any valid erb templates are valid rescpos templates.
+
+For rails application, the template's extension name is set to 'escpos.erb'.
+
+h2. Printers
+
+In order to print the report, you should create a Rescpos::Printer object and then print the report.
+
+bc. printer = Rescpos::Printer.open('192.168.1.250', 9100)
+printer.print(report)
+printer.close
