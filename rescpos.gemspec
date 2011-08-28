@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Rescpos::VERSION
   s.authors     = ["Tower He"]
   s.email       = ["towerhe@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/towerhe/rescpos"
   s.summary     = %q{A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications.}
   s.description = %q{Print formatted docs with Winpos WP-800}
 
@@ -21,4 +21,13 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
+
+  s.add_development_dependency 'rb-inotify'
+  s.add_development_dependency 'libnotify'
+  s.add_development_dependency 'rspec-instafail'
+  s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'guard-bundler'
+  s.add_development_dependency 'guard-cucumber'
+  s.add_development_dependency 'guard-rspec'
 end

@@ -11,7 +11,7 @@ When /^I render the titled report with the given template$/ do
 end
 
 Then /^I will see "([^"]*)"$/ do |title|
-  @output.should == title
+  @output.should be_include(title)
 end
 
 Given /^"([^"]*)" is a template directory$/ do |path|
