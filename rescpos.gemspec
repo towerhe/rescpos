@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Rescpos::VERSION
   s.authors     = ["Tower He"]
   s.email       = ["towerhe@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/towerhe/rescpos"
   s.summary     = %q{A ruby implementation of the Line Thermal Printer ESC/POS Command Specifications.}
   s.description = %q{Print formatted docs with Winpos WP-800}
 
