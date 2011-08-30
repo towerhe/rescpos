@@ -2,6 +2,9 @@ module Rescpos
   module ReportUtil
     FONT_NORMAL = "\x00"
     FONT_BIG = "\x11"
+    ALIGN_C = "\x01"
+    ALIGN_L = "\x00"
+    ALIGN_R = "\x02"
 
     def single_splitline
       text("-" * 42, :font_size => FONT_NORMAL)
@@ -25,6 +28,7 @@ module Rescpos
       formatted_text = ''
       formatted_text << fontsize(font_size)
       formatted_text << grayscale(options[:gray]) if options[:gray]
+      formatted_text << align(options[:align_type]) if options[:align_type]
       formatted_text << txt if txt
     end
     
@@ -40,14 +44,8 @@ module Rescpos
       "#{label}: #{value}"
     end
 
-    def align(format)
-      if format == 'C'
-        return "\x1b\x61\x01"
-      elsif format == 'L'
-        return "\x1b\x61\x00"
-      elsif format == 'R'
-        return "\x1b\x61\x02"
-      end
+    def align(type)
+      "\x1b\x61" << type.to_s
     end
     
     def table(positions)

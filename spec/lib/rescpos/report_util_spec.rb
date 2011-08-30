@@ -39,7 +39,7 @@ describe ReportUtilTest do
   end
 
   it "should return a formmat text" do
-    @report_util.text('abc', {:font_size => ReportUtilTest::FONT_BIG, :gray => 4}).should == "\x1d\x21\x11\x1b\x6d34abc"
+    @report_util.text('abc', {:font_size => ReportUtilTest::FONT_BIG, :gray => 4, :align_type => ReportUtilTest::ALIGN_C}).should == "\x1d\x21\x11\x1b\x6d34\x1b\x61\x01abc"
   end
 
   it "should return a formatted key and value pair" do
@@ -47,8 +47,8 @@ describe ReportUtilTest do
   end
 
   it "should return a align" do
-    @report_util.align('C').should == "\x1b\x61\x01"
-    @report_util.align('L').should == "\x1b\x61\x00"
-    @report_util.align('R').should == "\x1b\x61\x02"
+    @report_util.align(ReportUtilTest::ALIGN_C).should == "\x1b\x61\x01"
+    @report_util.align(ReportUtilTest::ALIGN_L).should == "\x1b\x61\x00"
+    @report_util.align(ReportUtilTest::ALIGN_R).should == "\x1b\x61\x02"
   end
 end
