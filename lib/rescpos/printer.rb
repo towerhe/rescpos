@@ -15,10 +15,8 @@ module Rescpos
       @socket.close
     end
 
-    def print(content, opts={})
-      if opts[:encoding]
-        content = Iconv.iconv("#{opts[:encoding]}//IGNORE","UTF-8//IGNORE", content)[0]
-      end
+    def print(content, opts={:encoding => 'GBK'})
+      content = Iconv.iconv("#{opts[:encoding]}//IGNORE","UTF-8//IGNORE", content)[0]
       @socket.send(content, Socket::MSG_OOB)
       cut
     end
