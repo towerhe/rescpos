@@ -5,6 +5,10 @@ class ReportUtilTest
   include Rescpos::ReportUtil
 end
 
+class BillItemTest
+  attr_accessor :name, :quantity 
+end
+
 describe ReportUtilTest do
   before :each do
     @report_util = ReportUtilTest.new
@@ -39,7 +43,7 @@ describe ReportUtilTest do
   end
 
   it "should return a formmat text" do
-    @report_util.text('abc', {:font_size => ReportUtilTest::FONT_BIG, :gray => 4}).should == "\x1d\x21\x11\x1b\x6d34abc"
+    @report_util.text('abc', {:font_size => ReportUtilTest::FONT_BIG, :gray => 4, :align_type => ReportUtilTest::ALIGN_C}).should == "\x1d\x21\x11\x1b\x6d34\x1b\x61\x01abc"
   end
 
   it "should return a formatted key and value pair" do
@@ -47,8 +51,31 @@ describe ReportUtilTest do
   end
 
   it "should return a align" do
-    @report_util.align('C').should == "\x1b\x61\x01"
-    @report_util.align('L').should == "\x1b\x61\x00"
-    @report_util.align('R').should == "\x1b\x61\x02"
+    @report_util.align(ReportUtilTest::ALIGN_C).should == "\x1b\x61\x01"
+    @report_util.align(ReportUtilTest::ALIGN_L).should == "\x1b\x61\x00"
+    @report_util.align(ReportUtilTest::ALIGN_R).should == "\x1b\x61\x02"
+  end
+
+  it "give a hash should return a table" do
+    bill_item = {
+      :name => 'a',
+      :quantity => 2,
+    }
+    table = @report_util.table([bill_item]) do |t|
+      t.config([9])
+      t.td([:name, :quantity])
+    end
+    table.should == "\x1b\x44#{9.chr}\x00a\x092\x09\n"
+  end
+
+  it "give a object should return a table" do
+    bill_item = BillItemTest.new 
+    bill_item.name = 'a'
+    bill_item.quantity = 2
+    table = @report_util.table([bill_item]) do |t|
+      t.config([9])
+      t.td([:name, :quantity])
+    end
+    table.should == "\x1b\x44#{9.chr}\x00a\x092\x09\n"
   end
 end

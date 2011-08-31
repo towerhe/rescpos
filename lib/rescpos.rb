@@ -5,6 +5,7 @@ require "core_ext/string"
 
 require "rescpos/version"
 require "rescpos/printer"
+require "rescpos/table"
 require "rescpos/report_util"
 require "iconv"
 require "rescpos/configuration"
