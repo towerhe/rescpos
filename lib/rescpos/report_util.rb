@@ -2,6 +2,9 @@ module Rescpos
   module ReportUtil
     FONT_NORMAL = "\x00"
     FONT_BIG = "\x11"
+    ALIGN_C = "\x01"
+    ALIGN_L = "\x00"
+    ALIGN_R = "\x02"
 
     def single_splitline
       text("-" * 42, :font_size => FONT_NORMAL)
@@ -25,6 +28,7 @@ module Rescpos
       formatted_text = ''
       formatted_text << fontsize(font_size)
       formatted_text << grayscale(options[:gray]) if options[:gray]
+      formatted_text << align(options[:align_type]) if options[:align_type]
       formatted_text << txt if txt
     end
     
@@ -40,22 +44,31 @@ module Rescpos
       "#{label}: #{value}"
     end
 
-    def align(format)
-      if format == 'C'
-        return "\x1b\x61\x01"
-      elsif format == 'L'
-        return "\x1b\x61\x00"
-      elsif format == 'R'
-        return "\x1b\x61\x02"
-      end
+    def align(type)
+      "\x1b\x61" << type.to_s
     end
     
-    def table(positions)
+    def table(data)
+      table = Rescpos::Table.new(data)
+      yield table
       command = "\x1b\x44"
-      for position in positions
-        command << ascii(position)
+      table.positions.each do |position|
+        command << position.chr
       end
       command << "\x00"
+      table.data.each do |item|
+        table.keys.each do |key|
+          begin
+            if item[key]
+              command << "#{item[key]}"+"\x09"
+            end
+          rescue
+              command << "#{item.send(key)}"+"\x09"
+          end
+        end
+        command << "\n"
+      end
+      command
     end
 
     def horizontal_tab
