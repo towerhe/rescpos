@@ -48,12 +48,27 @@ module Rescpos
       "\x1b\x61" << type.to_s
     end
     
-    def table(positions)
+    def table(data)
+      table = Rescpos::Table.new(data)
+      yield table
       command = "\x1b\x44"
-      for position in positions
-        command << ascii(position)
+      table.positions.each do |position|
+        command << position.chr
       end
       command << "\x00"
+      table.data.each do |item|
+        table.keys.each do |key|
+          begin
+            if item[key]
+              command << "#{item[key]}"+"\x09"
+            end
+          rescue
+              command << "#{item.send(key)}"+"\x09"
+          end
+        end
+        command << "\n"
+      end
+      command
     end
 
     def horizontal_tab

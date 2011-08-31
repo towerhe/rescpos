@@ -1,0 +1,9 @@
+<%= text(key_value("结帐单号", @bill[:id])) %>
+<%= text(key_value("打印时间", Time.now.strftime("%Y-%m-%d %H:%M").to_s)) %>
+<%= single_splitline %>
+<%= table(@bill_items){|t| t.config([9]); t.td([:name, :quantity])} %>
+<%= double_splitline %>
+<%= text(key_value("客户签名", underline(27))) %>
+
+
+
