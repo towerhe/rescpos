@@ -51,6 +51,7 @@ module Rescpos
     def table(data)
       table = Rescpos::Table.new(data)
       yield table
+      # FIXME move the following logic into Rescpos::Table
       command = "\x1b\x44"
       table.positions.each do |position|
         command << position.chr
@@ -62,12 +63,10 @@ module Rescpos
       command << "\n"
       table.data.each do |item|
         table.keys.each do |key|
-          begin
-            if item[key]
-              command << "#{item[key]}"+"\x09"
-            end
-          rescue
-              command << "#{item.send(key)}"+"\x09"
+          if item.is_a? Hash
+            command << "#{item[key]}"+"\x09"
+          else
+            command << "#{item.send(key)}"+"\x09"
           end
         end
         if table.data.at(-1) == item
