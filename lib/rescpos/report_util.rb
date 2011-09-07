@@ -71,7 +71,7 @@ module Rescpos
             command << "#{item.send(key)}"+"\x09"
           end
         end
-        if table.data.at(-1) == item
+        if table.data.last == item
           return command
         end
         command << "\n"
