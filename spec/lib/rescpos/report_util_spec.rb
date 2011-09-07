@@ -69,7 +69,7 @@ describe ReportUtilTest do
     table.should == "\x1b\x44#{9.chr}\x00a\x09b\x09\na\x092\x09"
   end
 
-  it "give a hash should return a table" do
+  it "give a hash should return a table without a header" do
     bill_item = {
       :name => 'a',
       :quantity => 2,
@@ -81,7 +81,7 @@ describe ReportUtilTest do
     table.should == "\x1b\x44#{9.chr}\x00a\x092\x09"
   end
 
-  it "give a object should return a table" do
+  it "give a object should return a table without a header" do
     bill_item = BillItem.new 
     bill_item.name = 'a'
     bill_item.quantity = 2
