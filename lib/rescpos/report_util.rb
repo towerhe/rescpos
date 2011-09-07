@@ -57,10 +57,12 @@ module Rescpos
         command << position.chr
       end
       command << "\x00"
-      table.headers.each do |header|
-        command << header << "\x09" 
+      if table.headers
+        table.headers.each do |header|
+          command << header << "\x09" 
+        end
+        command << "\n"
       end
-      command << "\n"
       table.data.each do |item|
         table.keys.each do |key|
           if item.is_a? Hash
