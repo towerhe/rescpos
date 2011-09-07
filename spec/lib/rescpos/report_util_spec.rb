@@ -69,6 +69,29 @@ describe ReportUtilTest do
     table.should == "\x1b\x44#{9.chr}\x00a\x09b\x09\na\x092\x09"
   end
 
+  it "give a hash should return a table" do
+    bill_item = {
+      :name => 'a',
+      :quantity => 2,
+    }
+    table = @report_util.table([bill_item]) do |t|
+      t.config([9])
+      t.td([:name, :quantity])
+    end
+    table.should == "\x1b\x44#{9.chr}\x00a\x092\x09"
+  end
+
+  it "give a object should return a table" do
+    bill_item = BillItem.new 
+    bill_item.name = 'a'
+    bill_item.quantity = 2
+    table = @report_util.table([bill_item]) do |t|
+      t.config([9])
+      t.td([:name, :quantity])
+    end
+    table.should == "\x1b\x44#{9.chr}\x00a\x092\x09"
+  end
+
   it "give a object should return a table" do
     bill_item = BillItem.new 
     bill_item.name = 'a'
