@@ -5,7 +5,7 @@ class ReportUtilTest
   include Rescpos::ReportUtil
 end
 
-class BillItemTest
+class BillItem
   attr_accessor :name, :quantity 
 end
 
@@ -70,7 +70,7 @@ describe ReportUtilTest do
   end
 
   it "give a object should return a table" do
-    bill_item = BillItemTest.new 
+    bill_item = BillItem.new 
     bill_item.name = 'a'
     bill_item.quantity = 2
     table = @report_util.table([bill_item]) do |t|
