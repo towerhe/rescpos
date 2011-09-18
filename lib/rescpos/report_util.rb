@@ -64,17 +64,21 @@ module Rescpos
         command << "\n"
       end
       table.data.each do |item|
-        table.keys.each do |key|
-          if item.is_a? Hash
-            command << "#{item[key]}"+"\x09"
-          else
-            command << "#{item.send(key)}"+"\x09"
+        if item.is_a? Array
+          command = command + item.join("\x09") + (table.data.last == item ? "" : "\n")
+        else
+          table.keys.each do |key|
+            if item.is_a? Hash
+              command << "#{item[key]}\x09"
+            else
+              command << "#{item.send(key)}\x09"
+            end
           end
+          if table.data.last == item
+            return command
+          end
+          command << "\n"
         end
-        if table.data.last == item
-          return command
-        end
-        command << "\n"
       end
       command
     end
