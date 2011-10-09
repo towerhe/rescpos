@@ -13,7 +13,7 @@ module Rescpos
   describe Printer do
     before(:each) do
       TCPSocket.should_receive(:open).with("192.168.1.3", 9100).and_return(socket)
-      socket.should_receive(:send).with("\x1b\x40", Socket::MSG_OOB)
+      socket.should_receive(:send).with("\x1b\x40", 0)
     end
 
     let(:socket) { Object.new }
@@ -25,7 +25,7 @@ module Rescpos
     it "prints the a rendered report" do
       printer = Printer.open("192.168.1.3", 9100)
 
-      socket.should_receive(:send).with("A title", Socket::MSG_OOB)
+      socket.should_receive(:send).with("A title", 0)
       printer.should_receive(:cut)
       printer.print(TitledReport.new("A title").render(:template => "<%= @title %>"))
     end
@@ -36,7 +36,7 @@ module Rescpos
       end
       printer = Printer.open("192.168.1.3", 9100)
 
-      socket.should_receive(:send).with("A title\n", Socket::MSG_OOB)
+      socket.should_receive(:send).with("A title\n", 0)
       printer.should_receive(:cut)
       printer.print_report(TitledReport.new("A title"))
     end
