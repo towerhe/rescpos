@@ -1,10 +1,11 @@
 module Rescpos
   class Printer
     attr_reader :socket
+    SOCK_FLAG = 0
 
     def initialize(ip, port)
       @socket = TCPSocket.open(ip, port)
-      @socket.send("\x1b\x40", Socket::MSG_OOB)
+      @socket.send("\x1b\x40", SOCK_FLAG)
     end
 
     def self.open(ip, port)
@@ -17,7 +18,7 @@ module Rescpos
 
     def print(content, opts={:encoding => 'GBK'})
       content = Iconv.iconv("#{opts[:encoding]}//IGNORE","UTF-8//IGNORE", content)[0]
-      @socket.send(content, Socket::MSG_OOB)
+      @socket.send(content, SOCK_FLAG)
       cut
     end
 
@@ -27,7 +28,7 @@ module Rescpos
 
     private
     def send_command(command)
-      @socket.send(command, Socket::MSG_OOB)
+      @socket.send(command, SOCK_FLAG)
     end
     
     def cut
