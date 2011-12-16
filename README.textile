@@ -35,7 +35,7 @@ end
 To render the report, you just need to call the render method of the report.
 
 bc. report = SimpleTitledReport.new('A report with a title')
-report.render(:template => "<%= @title %>")
+report.render(:template => "<%= title %>")
 # A report with a title
 
 You can also create a pre-defined template for the report. 
@@ -73,3 +73,11 @@ In order to print the report, you should create a Rescpos::Printer object and th
 bc. printer = Rescpos::Printer.open('192.168.1.250', 9100)
 printer.print(report)
 printer.close
+
+You can set the options for printing:
+
+bc. printer.print(report, encoding: 'GBK', cut_mode: :partial_cut)
+
+* Encoding option could be any valid encoding.
+* cut_mode option has two values: :full_cut and :partial_cut, by default the mode is set to :partial_cut.
+
