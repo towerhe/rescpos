@@ -16,10 +16,10 @@ module Rescpos
       @socket.close
     end
 
-    def print(content, opts={:encoding => 'GBK'})
-      content = Iconv.iconv("#{opts[:encoding]}//IGNORE","UTF-8//IGNORE", content)[0]
+    def print(content, opts = { :encoding => 'GBK', :cut_mode => :partial_cut })
+      content = Iconv.iconv("#{ opts[:encoding] || 'GBK' }//IGNORE","UTF-8//IGNORE", content)[0]
       @socket.send(content, SOCK_FLAG)
-      cut
+      send(opts[:cut_mode] || :partial_cut)
     end
 
     def print_report(report, opts={})
@@ -31,9 +31,12 @@ module Rescpos
       @socket.send(command, SOCK_FLAG)
     end
     
-    def cut
-      #TODO
-      send_command("\n\n\n\n\x1b\x69")
+    def partial_cut
+      send_command("\n\n\n\n\x1d\x561\x0c")
+    end
+
+    def full_cut
+      send_command("\n\n\n\n\x1b\x69\x0c")
     end
   end
 end
