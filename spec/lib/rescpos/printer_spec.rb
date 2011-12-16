@@ -18,16 +18,12 @@ module Rescpos
 
     let(:socket) { Object.new }
 
-    it "connects to the printer server" do
-      Printer.open("192.168.1.3", 9100)
-    end
-
     it "prints the a rendered report" do
       printer = Printer.open("192.168.1.3", 9100)
 
       socket.should_receive(:send).with("A title", 0)
-      printer.should_receive(:cut)
-      printer.print(TitledReport.new("A title").render(:template => "<%= @title %>"))
+      printer.should_receive(:send).with(:partial_cut)
+      printer.print(TitledReport.new("A title").render(template: "<%= @title %>"))
     end
 
     it "prints the report" do
@@ -37,8 +33,8 @@ module Rescpos
       printer = Printer.open("192.168.1.3", 9100)
 
       socket.should_receive(:send).with("A title\n", 0)
-      printer.should_receive(:cut)
-      printer.print_report(TitledReport.new("A title"))
+      printer.should_receive(:send).with(:full_cut)
+      printer.print_report(TitledReport.new("A title"), cut_mode: :full_cut)
     end
   end
 end
